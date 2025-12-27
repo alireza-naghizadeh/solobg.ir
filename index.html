@@ -38,15 +38,31 @@
       background: linear-gradient(180deg, rgba(0,0,0,0.02), transparent 1px) top left / 24px 24px, var(--bg);
       color:var(--accent);
       padding:28px 12px;
-      display:flex;
-      justify-content:center;
     }
 
-    .container{ width:100%; max-width:var(--max-width); padding:12px; }
+    .container{ width:100%; max-width:var(--max-width); padding:12px; margin:0 auto; }
 
     header.site-header{ display:flex; gap:14px; align-items:center; justify-content:space-between; margin-bottom:14px; }
-    .logo{ display:flex; gap:10px; align-items:center; background: linear-gradient(90deg, rgba(15,122,64,0.08), rgba(0,160,255,0.06)); padding:10px 14px; border-radius:12px; }
-    .logo svg{ width:44px; height:44px; flex:0 0 44px; }
+
+    .logo{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      background: linear-gradient(90deg, rgba(15,122,64,0.08), rgba(0,160,255,0.06));
+      padding:10px 14px;
+      border-radius:12px;
+    }
+
+    /* Larger site PNG logo */
+    .site-logo{
+      width:64px;
+      height:64px;
+      flex:0 0 64px;
+      object-fit:cover;
+      border-radius:10px;
+      display:block;
+    }
+
     .logo h1{ margin:0; font-size:18px; font-weight:700; }
     .logo p{ margin:0; font-size:12px; color:var(--muted) }
 
@@ -92,9 +108,6 @@
 
     .meta{ margin-top:14px; display:flex; gap:10px; align-items:center; justify-content:flex-end; flex-wrap:wrap; }
 
-    /* Social images: apply drop-shadow to the PNG's pixels (transparent areas remain transparent).
-       The container stays invisible (no rectangle). All social icons use same size (share-size).
-    */
     .social-btn, .share-btn {
       width: var(--share-size);
       height: var(--share-size);
@@ -102,7 +115,7 @@
       place-items:center;
       padding:0;
       border:0;
-      background:transparent; /* no rectangle */
+      background:transparent;
       cursor:pointer;
       position:relative;
       text-decoration:none;
@@ -117,7 +130,6 @@
       display:block;
       pointer-events:none;
       user-select:none;
-      /* apply drop-shadow so only icon pixels cast shadow */
       filter: drop-shadow(var(--social-drop));
       -webkit-filter: drop-shadow(var(--social-drop));
       transition: transform 180ms ease, filter 180ms ease;
@@ -125,14 +137,12 @@
       will-change: transform, filter;
     }
 
-    /* hover: scale & intensify shadow */
     .social-btn:hover img, .share-btn:hover img {
       transform: scale(1.12);
       filter: drop-shadow(var(--social-drop-hover));
       -webkit-filter: drop-shadow(var(--social-drop-hover));
     }
 
-    /* Ensure the button elements themselves have no rectangle or box-shadow */
     .social-btn, .share-btn { background:transparent; border:none; box-shadow:none; border-radius:0; }
 
     .desc{ margin-top:12px; color:var(--muted); font-size:15px; line-height:1.6; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; text-overflow:ellipsis; }
@@ -161,7 +171,6 @@
     }
     .to-top.show{ opacity:1; transform: translateY(0) scale(1); pointer-events:auto; }
 
-    /* mobile: keep go-top visible and positioned nicely */
     @media (max-width:880px){
       .to-top{ left: 14px !important; bottom: 18px; }
       :root{ --share-size:40px; --thumb-radius:34px; --max-width:720px }
@@ -171,6 +180,7 @@
       :root{ --share-size:36px }
       .thumb .title{ font-size:14px; padding:6px 10px; bottom:10px; max-width:68% }
       .thumb .duration{ font-size:14px; padding:6px 8px }
+      .site-logo{ width:56px; height:56px; flex:0 0 56px; }
     }
   </style>
 </head>
@@ -179,7 +189,8 @@
     <header class="site-header" role="banner">
       <div class="branding">
         <div class="logo" title="SoloBG - بازی‌های یک‌نفره">
-          <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#00a3ff"/><stop offset="1" stop-color="#0bb07a"/></linearGradient></defs><rect rx="10" width="64" height="64" fill="url(#g1)"/><g transform="translate(8,8)" fill="#fff"><path d="M12 6a4 4 0 100-8 4 4 0 000 8z" transform="translate(12,12)"/><path d="M4 44c0-8 8-12 16-12s16 4 16 12v4H4v-4z" opacity="0.9"/></g></svg>
+          <!-- PNG logo only (SVG removed to eliminate colored rectangle) -->
+          <img src="images/logo.png" alt="SoloBG logo" class="site-logo" width="64" height="64">
           <div>
             <h1>SoloBG</h1>
             <p>بازی‌های یک‌نفره — راهنمای ویدیویی</p>
@@ -199,32 +210,51 @@
 
   <script>
     const sample = [
-      { title: "چگونه بازی‌های یک‌نفره را شروع کنیم", duration: "9:12", image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1400&auto=format&fit=crop", desc: "معرفی سبک بازی‌های سولو، آماده‌سازی قطعات، و نکاتی برای تجربه بهتر. مناسب برای تازه‌کارها.", links:{ youtube:"https://www.youtube.com/" } },
-      { title: "راهنمای استراتژی: مدیریت منابع", duration: "12:03", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1400&auto=format&fit=crop", desc: "نمونه‌های عملی از بازی‌های سولو و تصمیمات مهم هنگام مدیریت منابع و اولویت‌بندی.", links:{ youtube:"#"} },
-      { title: "مثال: اجرای سناریوی یک‌نفره", duration: "7:45", image: "https://images.unsplash.com/photo-1509099836639-18ba1b7d9f75?q=80&w=1400&auto=format&fit=crop", desc: "یک اجرای کامل از سناریوی بازی برای نشان دادن جریان بازی، تصمیمات و نکات کلیدی.", links:{ youtube:"#"} }
+      {
+        title: "چگونه بازی‌های یک‌نفره را شروع کنیم",
+        duration: "9:12",
+        image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1400&auto=format&fit=crop",
+        desc: "راهنمای گام‌به‌گام برای شروع بازی‌های یک‌نفره — انتخاب، نصب و تنظیمات اولیه.",
+        links: { youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
+      },
+      {
+        title: "راهنمای استراتژی: مدیریت منابع",
+        duration: "12:03",
+        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1400&auto=format&fit=crop",
+        desc: "استراتژی‌های اصلی مدیریت منابع در بازی‌های دشوار و طولانی.",
+        links: { youtube: "https://www.youtube.com/watch?v=3JZ_D3ELwOQ" }
+      },
+      {
+        title: "مثال: اجرای سناریوی یک‌نفره",
+        duration: "7:45",
+        image: "https://images.unsplash.com/photo-1509099836639-18ba1b7d9f75?q=80&w=1400&auto=format&fit=crop",
+        desc: "اجرای یک سناریوی نمونه و تحلیل تصمیم‌ها و نتایج.",
+        links: { youtube: "https://www.youtube.com/watch?v=V-_O7nl0Ii0" }
+      }
     ];
 
     const feed = document.getElementById('feed');
 
-    function esc(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+    function esc(s){ if(s === undefined || s === null) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
     function createCard(item, idx){
       const id = 'video-' + (idx + 1);
       const card = document.createElement('article');
       card.className = 'card';
       card.id = id;
+      const youtubeLink = item.links && item.links.youtube ? item.links.youtube : '#';
       card.innerHTML = `
-        <a class="thumb" href="${esc(item.links.youtube)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(item.title)}">
+        <a class="thumb" href="${esc(youtubeLink)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(item.title)}">
           <img loading="lazy" decoding="async" src="${esc(item.image)}" alt="${esc(item.title)}">
           <div class="title">${esc(item.title)}</div>
           <div class="duration" aria-hidden="true">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="1.4"/><path d="M12 7.5v5l3 1.5" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="1.4"/><path d="M12 7.5v4l2 1" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
             <span>${esc(item.duration)}</span>
           </div>
         </a>
 
         <div class="meta" aria-hidden="false">
-          <a class="social-btn youtube" href="${esc(item.links.youtube)}" target="_blank" aria-label="YouTube" title="YouTube" rel="noopener noreferrer">
+          <a class="social-btn youtube" href="${esc(youtubeLink)}" target="_blank" aria-label="YouTube" title="YouTube" rel="noopener noreferrer">
             <img src="images/youtube.png" alt="YouTube">
           </a>
 
@@ -250,10 +280,8 @@
       return card;
     }
 
-    // render
     sample.forEach((it, idx) => feed.appendChild(createCard(it, idx)));
 
-    // share behavior
     feed.addEventListener('click', async function(e){
       const btn = e.target.closest('.share-btn');
       if(!btn) return;
@@ -281,11 +309,18 @@
       const tip = document.createElement('div');
       tip.className = 'share-tooltip';
       tip.textContent = text;
+      tip.style.position = 'absolute';
+      tip.style.bottom = '100%';
+      tip.style.right = '0';
+      tip.style.background = 'rgba(0,0,0,0.8)';
+      tip.style.color = '#fff';
+      tip.style.padding = '6px 8px';
+      tip.style.borderRadius = '8px';
+      tip.style.fontSize = '12px';
       btn.appendChild(tip);
       setTimeout(()=> tip.remove(), 1600);
     }
 
-    // go-top logic: show on mobile and desktop
     const topBtn = document.getElementById('btnToTop');
     function scrollTop(){ return window.scrollY || window.pageYOffset || document.documentElement.scrollTop; }
     function updTop(){ if(scrollTop() > 20){ topBtn.classList.add('show'); topBtn.setAttribute('aria-hidden','false'); } else { topBtn.classList.remove('show'); topBtn.setAttribute('aria-hidden','true'); } }
@@ -303,7 +338,6 @@
     });
     updTop();
 
-    // aspect-ratio fallback
     if(!(CSS && CSS.supports && CSS.supports('aspect-ratio','16/9'))){
       document.querySelectorAll('.thumb').forEach(t=>{
         function setH(){ t.style.height = (t.clientWidth * 9 / 16) + 'px'; } setH(); window.addEventListener('resize', setH);
